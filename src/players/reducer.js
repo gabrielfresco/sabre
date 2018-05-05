@@ -1,22 +1,32 @@
-const initialState = { players: [], filters: {} };
+const initialState = {
+    allPlayers: [{
+        contractUntil: "2019-06-30",
+        dateOfBirth: "1989-11-22",
+        jerseyNumber: 12,
+        name: "Chris Smalling",
+        nationality: "England",
+        position: "Centre-Back"
+    }], 
+    players: [{
+        contractUntil: "2019-06-30",
+        dateOfBirth: "1989-11-22",
+        jerseyNumber: 12,
+        name: "Chris Smalling",
+        nationality: "England",
+        position: "Centre-Back"
+    }],
+    filters: {}
+};
 
 function reducer(state = initialState, action) {
     switch (action.type) {
         case "SEARCH":
-            const allPlayers = [{
-                contractUntil: "2019-06-30",
-                dateOfBirth: "1989-11-22",
-                jerseyNumber: 12,
-                name: "Chris Smalling",
-                nationality: "England",
-                position: "Centre-Back"
-            }];
-            let filteredPlayers = allPlayers;
+            let filteredPlayers = state.allPlayers;
 
             if (Object.keys(state.filters).length > 0) {
-                filteredPlayers = allPlayers.filter((player) => {
-                    let matchesFilters = false;
-                    if (state.filters.name) {
+                filteredPlayers = state.allPlayers.filter((player) => {
+                    let matchesFilters = true;
+                    if (state.filters.name && state.filters.name !== "") {
                         matchesFilters = player.name.includes(state.filters.name)
                     }
 
@@ -33,7 +43,8 @@ function reducer(state = initialState, action) {
             }
             return {
                 players: filteredPlayers,
-                filters: state.filters
+                filters: state.filters,
+                allPlayers: state.allPlayers
             };
         case "HANDLECHANGE":
             let filters = {};
@@ -41,7 +52,8 @@ function reducer(state = initialState, action) {
             filters[action.inputId] = action.inputValue;
             return {
                 players: state.players,
-                filters: filters
+                filters: filters,
+                allPlayers: state.allPlayers
             };
         default:
             return state;

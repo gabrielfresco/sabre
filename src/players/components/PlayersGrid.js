@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Grid, FormGroup, FormControl, Button, Table } from 'react-bootstrap'
 import { createStructuredSelector } from 'reselect';
-//import { getCounts } from '../selectors';
+import { getAllPlayers, getVisiblePlayers, getFilters } from '../selectors';
 
 class PlayersGrid extends React.Component {
   search = () => {
@@ -15,8 +15,8 @@ class PlayersGrid extends React.Component {
 
   renderTableBody = (props) => {
     return <tbody>
-      {props.players.map((player) => {
-        return (<tr>
+      {props.players.map((player, index) => {
+        return (<tr key={index}>
           <td>{player.name}</td>
           <td>{player.position}</td>
           <td>{player.nationality}</td>
@@ -102,11 +102,4 @@ class PlayersGrid extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    players: state.players,
-    filters: state.filters
-  };
-}
-
-export default connect(mapStateToProps)(PlayersGrid);
+export default connect(createStructuredSelector({allPlayers: getAllPlayers, players: getVisiblePlayers, filters: getFilters}))(PlayersGrid);
