@@ -5,6 +5,8 @@ import { createStructuredSelector } from 'reselect';
 import { getAllPlayers, getVisiblePlayers, getFilters } from '../selectors';
 
 class PlayersGrid extends React.Component {
+  fetchPlayers = () => this.props.dispatch({type: "FETCHPLAYERS", dispatch: this.props.dispatch});
+
   search = () => {
     this.props.dispatch({ type: 'SEARCH' });
   }
@@ -28,7 +30,7 @@ class PlayersGrid extends React.Component {
 
   render() {
     return (
-      <Grid>
+      <Grid onLoad={this.fetchPlayers}>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
         <Row className="show-grid">
           <Col xs={12} md={12}>

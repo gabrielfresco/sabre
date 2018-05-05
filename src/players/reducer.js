@@ -1,20 +1,16 @@
+const fetchPlayers = (dispatch) => {
+    let players;
+    let promise = fetch('https://football-players-b31f2.firebaseio.com/players.json?print=pretty')
+        .then(res => {
+            return res.json();
+        }).then(data => {
+            dispatch({ type: "RENDERPLAYERS", data: data });
+        })
+}
+
 const initialState = {
-    allPlayers: [{
-        contractUntil: "2019-06-30",
-        dateOfBirth: "1989-11-22",
-        jerseyNumber: 12,
-        name: "Chris Smalling",
-        nationality: "England",
-        position: "Centre-Back"
-    }], 
-    players: [{
-        contractUntil: "2019-06-30",
-        dateOfBirth: "1989-11-22",
-        jerseyNumber: 12,
-        name: "Chris Smalling",
-        nationality: "England",
-        position: "Centre-Back"
-    }],
+    allPlayers: [],
+    players: [],
     filters: {}
 };
 
@@ -54,6 +50,15 @@ function reducer(state = initialState, action) {
                 players: state.players,
                 filters: filters,
                 allPlayers: state.allPlayers
+            };
+        case "FETCHPLAYERS":
+            fetchPlayers(action.dispatch);
+            return state;
+        case "RENDERPLAYERS":
+            return {
+                players: action.data,
+                filters: {},
+                allPlayers: action.data
             };
         default:
             return state;
