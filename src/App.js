@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import PlayersGrid from './players/components/PlayersGrid'
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import  combineReducers  from './rootReducer'
+import  reducer  from './players/reducer'
 
 const initialState = {
   count: 0
 };
 
-const store = createStore(combineReducers);
+const store = createStore(reducer);
 
 class App extends Component {
   render() {
