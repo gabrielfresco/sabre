@@ -9,13 +9,30 @@ class PlayersGrid extends React.Component {
     this.props.dispatch({ type: 'SEARCH' });
   }
 
+  handleChange = (e) => {
+    this.props.dispatch({ type: 'HANDLECHANGE', inputId: e.target.id, inputValue: e.target.value });
+  }
+
+  renderTableBody = (props) => {
+    return <tbody>
+      {props.players.map((player) => {
+        return (<tr>
+          <td>{player.name}</td>
+          <td>{player.position}</td>
+          <td>{player.nationality}</td>
+          <td>{player.jerseyNumber}</td>
+        </tr>);
+      })}
+    </tbody>;
+  }
+
   render() {
     return (
       <Grid>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
         <Row className="show-grid">
           <Col xs={12} md={12}>
-            <h2>Football player finder {this.props.players.length}</h2>
+            <h2>Football player finder</h2>
           </Col>
         </Row>
 
@@ -24,15 +41,16 @@ class PlayersGrid extends React.Component {
             <FormGroup controlId={"name"}>
               <FormControl
                 type="text"
-                //value={this.state.value}
+                value={this.props.filters.name}
+                onChange={this.handleChange}
                 placeholder="Name"
-              // onChange={this.handleChange}
               />
             </FormGroup>
           </Col>
           <Col xs={6} md={3}>
-            <FormGroup controlId="formControlsSelect">
-              <FormControl componentClass="select" placeholder="select">
+            <FormGroup controlId={"position"}>
+              <FormControl componentClass="select" value={this.props.filters.position}
+                onChange={this.handleChange}>
                 <option value="All">All</option>
                 <option value="Attacking Midfield">Attacking Midfield</option>
                 <option value="Central Midfield">Central Midfield</option>
@@ -75,25 +93,7 @@ class PlayersGrid extends React.Component {
                   <th>Age</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td colSpan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
+              {this.renderTableBody(this.props)}
             </Table>
           </Col>
         </Row>
@@ -104,7 +104,8 @@ class PlayersGrid extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    players: state.players
+    players: state.players,
+    filters: state.filters
   };
 }
 

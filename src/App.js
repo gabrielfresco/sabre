@@ -6,10 +6,6 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import  reducer  from './players/reducer'
 
-const initialState = {
-  count: 0
-};
-
 const store = createStore(reducer);
 
 class App extends Component {
