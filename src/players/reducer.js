@@ -1,13 +1,3 @@
-const fetchPlayers = (dispatch) => {
-    let players;
-    let promise = fetch('https://football-players-b31f2.firebaseio.com/players.json?print=pretty')
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            dispatch({ type: "RENDERPLAYERS", data: data });
-        })
-}
-
 const initialState = {
     allPlayers: [],
     players: [],
@@ -51,9 +41,6 @@ function reducer(state = initialState, action) {
                 filters: filters,
                 allPlayers: state.allPlayers
             };
-        case "FETCHPLAYERS":
-            fetchPlayers(action.dispatch);
-            return state;
         case "RENDERPLAYERS":
             return {
                 players: action.data,
