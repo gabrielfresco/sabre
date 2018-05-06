@@ -31,7 +31,7 @@ function reducer(state = initialState, action) {
                     }
 
                     if (state.filters.jerseyNumber) {
-                        matchesFilters = player.jerseyNumber === state.filters.jerseyNumber;
+                        matchesFilters = player.jerseyNumber == state.filters.jerseyNumber;
                     }
 
                     return matchesFilters;

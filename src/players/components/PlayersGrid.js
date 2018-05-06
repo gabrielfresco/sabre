@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Row, Col, Grid, FormGroup, FormControl, Button, Table } from 'react-bootstrap'
 import { createStructuredSelector } from 'reselect';
 import { getAllPlayers, getVisiblePlayers, getFilters } from '../selectors';
+import PlayerItem from './PlayerItem'
 
 class PlayersGrid extends React.Component {
   fetchPlayers = () => this.props.dispatch({type: "FETCHPLAYERS", dispatch: this.props.dispatch});
@@ -18,12 +19,7 @@ class PlayersGrid extends React.Component {
   renderTableBody = (props) => {
     return <tbody>
       {props.players.map((player, index) => {
-        return (<tr key={index}>
-          <td>{player.name}</td>
-          <td>{player.position}</td>
-          <td>{player.nationality}</td>
-          <td>{player.jerseyNumber}</td>
-        </tr>);
+        return <PlayerItem player={player} index={index}/>
       })}
     </tbody>;
   }
@@ -68,14 +64,14 @@ class PlayersGrid extends React.Component {
             </FormGroup>
           </Col>
           <Col xs={6} md={3}>
-            <FormGroup controlId={"Age"}>
+            <FormGroup controlId={"jerseyNumber"}>
               <FormControl
                 type="number"
-                min="18"
-                max="40"
-                //value={this.state.value}
-                placeholder="Age"
-              //onChange={this.handleChange}
+                min="1"
+                max="50"
+                value={this.props.filters.jerseyNumber}
+                placeholder="Jersey Number"
+                onChange={this.handleChange}
               />
             </FormGroup>
           </Col>
@@ -91,8 +87,8 @@ class PlayersGrid extends React.Component {
                 <tr>
                   <th>Player</th>
                   <th>Position</th>
-                  <th>Team</th>
-                  <th>Age</th>
+                  <th>Nationality</th>
+                  <th>Jersey number</th>
                 </tr>
               </thead>
               {this.renderTableBody(this.props)}
