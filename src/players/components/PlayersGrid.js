@@ -7,24 +7,38 @@ import PlayerItem from './PlayerItem'
 
 class PlayersGrid extends React.Component {
   search = () => {
-    this.props.dispatch({ type: 'SEARCH' });
+    if (this.props.filters.areValid) {
+      this.props.dispatch({ type: 'SEARCH' });
+    }
   }
 
   handleChange = (e) => {
     this.props.dispatch({ type: 'HANDLECHANGE', inputId: e.target.id, inputValue: e.target.value });
   }
 
-  renderTableBody = (props) => {
+  renderInputInvalidMessage = () => {
+    if (!this.props.filters.areValid) {
+      return (
+        <Col md={2}>
+          <Alert bsStyle="warning">
+            Invalid input values
+          </Alert>
+        </Col>
+      );
+    }
+  }
+
+  renderTableBody = () => {
     return <tbody>
-      {props.players.map((player, index) => {
+      {this.props.players.map((player, index) => {
         return <PlayerItem key={index} player={player} />
       })}
     </tbody>;
   }
 
-  renderAppBody = (props) => {
-    if (props.hasErrors) {
-      return (<Alert bsStyle="warning">
+  renderAppBody = () => {
+    if (this.props.hasErrors) {
+      return (<Alert bsStyle="error">
         An error has occurred, try again later
     </Alert>)
     } else {
@@ -37,7 +51,7 @@ class PlayersGrid extends React.Component {
             <th>Jersey number</th>
           </tr>
         </thead>
-        {this.renderTableBody(props)}
+        {this.renderTableBody()}
       </Table>;
     }
   }
@@ -84,21 +98,22 @@ class PlayersGrid extends React.Component {
             <FormGroup controlId={"jerseyNumber"}>
               <FormControl
                 type="number"
-                min="1"
-                max="50"
+                min="18"
+                max="40"
                 value={this.props.filters.jerseyNumber}
                 placeholder="Jersey Number"
                 onChange={this.handleChange}
               />
             </FormGroup>
           </Col>
-          <Col xs={6} md={3}>
+          <Col xs={6} md={1}>
             <Button bsStyle="info" onClick={this.search}>Search</Button>
           </Col>
+          {this.renderInputInvalidMessage()}
         </Row>
         <Row className="show-grid">
           <Col md={12}>
-            {this.renderAppBody(this.props)}
+            {this.renderAppBody()}
           </Col>
         </Row>
       </Grid>

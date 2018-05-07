@@ -1,7 +1,7 @@
 const initialState = {
     allPlayers: [],
     players: [],
-    filters: {},
+    filters: { areValid: true },
     hasErrors: false
 };
 
@@ -36,7 +36,19 @@ function reducer(state = initialState, action) {
             };
         case "HANDLECHANGE":
             let filters = {};
+            const numberInputMaxValue = 40;
+            const numberInputMinValue = 18;
+
             Object.assign(filters, state.filters);
+            debugger
+            if (action.inputId === "jerseyNumber" && action.inputValue) {
+                if (parseInt(action.inputValue) > numberInputMaxValue || parseInt(action.inputValue) < numberInputMinValue) {
+                    filters.areValid = false;
+                } else {
+                    filters.areValid = true;                    
+                }                
+            }
+
             filters[action.inputId] = action.inputValue;
             return {
                 players: state.players,
@@ -47,14 +59,14 @@ function reducer(state = initialState, action) {
         case "RENDERPLAYERS":
             return {
                 players: action.data,
-                filters: {},
+                filters: state.filters,
                 allPlayers: action.data,
                 hasErrors: false
             };
         case "FETCH_ERROR":
             return {
                 players: [],
-                filters: {},
+                filters: state.filters,
                 allPlayers: [],
                 hasErrors: true,
                 error: action.error
