@@ -6,4 +6,8 @@ const getVisiblePlayers = createSelector((state) => state.players, players => pl
 
 const getFilters = createSelector((state) => state.filters, filters => filters);
 
-export { getAllPlayers, getVisiblePlayers, getFilters };
+const getHasErrors = createSelector((state) => state.hasErrors, hasErrors => hasErrors);
+
+const getError = createSelector((state) => state.error, error => error);
+
+export { getAllPlayers, getVisiblePlayers, getFilters, getHasErrors, getError };

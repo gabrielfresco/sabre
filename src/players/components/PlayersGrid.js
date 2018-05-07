@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Grid, FormGroup, FormControl, Button, Table } from 'react-bootstrap'
+import { Row, Col, Grid, FormGroup, FormControl, Button, Table, Alert } from 'react-bootstrap'
 import { createStructuredSelector } from 'reselect';
-import { getAllPlayers, getVisiblePlayers, getFilters } from '../selectors';
+import { getAllPlayers, getVisiblePlayers, getFilters, getHasErrors, getError } from '../selectors';
 import PlayerItem from './PlayerItem'
 
 class PlayersGrid extends React.Component {
@@ -17,15 +17,34 @@ class PlayersGrid extends React.Component {
   renderTableBody = (props) => {
     return <tbody>
       {props.players.map((player, index) => {
-        return <PlayerItem key={index} player={player}/>
+        return <PlayerItem key={index} player={player} />
       })}
     </tbody>;
+  }
+
+  renderAppBody = (props) => {
+    if (props.hasErrors) {
+      return (<Alert bsStyle="warning">
+        An error has occurred, try again later
+    </Alert>)
+    } else {
+      return <Table striped bordered condensed hover responsive>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Position</th>
+            <th>Nationality</th>
+            <th>Jersey number</th>
+          </tr>
+        </thead>
+        {this.renderTableBody(props)}
+      </Table>;
+    }
   }
 
   render() {
     return (
       <Grid>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
         <Row className="show-grid">
           <Col xs={12} md={12}>
             <h2>Football player finder</h2>
@@ -77,20 +96,9 @@ class PlayersGrid extends React.Component {
             <Button bsStyle="info" onClick={this.search}>Search</Button>
           </Col>
         </Row>
-
         <Row className="show-grid">
           <Col md={12}>
-            <Table striped bordered condensed hover responsive>
-              <thead>
-                <tr>
-                  <th>Player</th>
-                  <th>Position</th>
-                  <th>Nationality</th>
-                  <th>Jersey number</th>
-                </tr>
-              </thead>
-              {this.renderTableBody(this.props)}
-            </Table>
+            {this.renderAppBody(this.props)}
           </Col>
         </Row>
       </Grid>
@@ -98,4 +106,4 @@ class PlayersGrid extends React.Component {
   }
 }
 
-export default connect(createStructuredSelector({allPlayers: getAllPlayers, players: getVisiblePlayers, filters: getFilters}))(PlayersGrid);
+export default connect(createStructuredSelector({ allPlayers: getAllPlayers, players: getVisiblePlayers, filters: getFilters, hasErrors: getHasErrors, error: getError }))(PlayersGrid);

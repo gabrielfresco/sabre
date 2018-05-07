@@ -1,7 +1,8 @@
 const initialState = {
     allPlayers: [],
     players: [],
-    filters: {}
+    filters: {},
+    hasErrors: false
 };
 
 function reducer(state = initialState, action) {
@@ -30,7 +31,8 @@ function reducer(state = initialState, action) {
             return {
                 players: filteredPlayers,
                 filters: state.filters,
-                allPlayers: state.allPlayers
+                allPlayers: state.allPlayers,
+                hasErrors: false
             };
         case "HANDLECHANGE":
             let filters = {};
@@ -39,13 +41,23 @@ function reducer(state = initialState, action) {
             return {
                 players: state.players,
                 filters: filters,
-                allPlayers: state.allPlayers
+                allPlayers: state.allPlayers,
+                hasErrors: false
             };
         case "RENDERPLAYERS":
             return {
                 players: action.data,
                 filters: {},
-                allPlayers: action.data
+                allPlayers: action.data,
+                hasErrors: false
+            };
+        case "FETCH_ERROR":
+            return {
+                players: [],
+                filters: {},
+                allPlayers: [],
+                hasErrors: true,
+                error: action.error
             };
         default:
             return state;

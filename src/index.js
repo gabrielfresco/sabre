@@ -19,12 +19,15 @@ const renderPlayers = () => {
             return res.json();
         }).then(data => {
             dispatch({ type: "RENDERPLAYERS", data: data });
+        }).catch(err => {
+            dispatch({ type: "FETCH_ERROR", error: err });
         });
     };
 }
 
 store.dispatch(renderPlayers())
 
-
+ReactDOM.render(<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous" />
+    , document.getElementsByTagName('head')[0]);
 ReactDOM.render(<App store={store} />, document.getElementById('root'));
 registerServiceWorker();
