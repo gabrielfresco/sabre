@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
 
-export const getAllPlayers = (state) => state.allPlayers;
+const getAllPlayers = createSelector((state) => state.allPlayers, allPlayers => allPlayers);
 
-export const getVisiblePlayers = (state) => state.players;
+const getVisiblePlayers = createSelector((state) => state.players, players => players);
 
-export const getFilters = createSelector(() => { return {}})
+const getFilters = createSelector((state) => state.filters, filters => filters);
+
+export { getAllPlayers, getVisiblePlayers, getFilters };
