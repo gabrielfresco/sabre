@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import PlayersGrid from './players/components/PlayersGrid'
 import { Provider } from 'react-redux';
 

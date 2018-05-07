@@ -1,13 +1,6 @@
 {
   "name": "sabre",
   "jest": {
-    "coverageThreshold": {
-      "./src/": {
-        "functions": 80,
-        "statements": 80,
-        "lines": 80
-      }
-    },
     "collectCoverageFrom": [
       "./src/*.js"
     ]
@@ -28,10 +21,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-jest": "^22.4.3",
     "chai": "^4.1.2",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
