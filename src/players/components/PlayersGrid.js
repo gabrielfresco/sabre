@@ -4,11 +4,12 @@ import { Row, Col, Grid, FormGroup, FormControl, Button, Table, Alert } from 're
 import { createStructuredSelector } from 'reselect';
 import { getAllPlayers, getVisiblePlayers, getFilters, getHasErrors, getError } from '../selectors';
 import PlayerItem from './PlayerItem'
+import { calculateAge } from '../../utils';
 
 class PlayersGrid extends React.Component {
   search = () => {
     if (this.props.filters.areValid) {
-      this.props.dispatch({ type: 'SEARCH' });
+      this.props.dispatch({ type: 'SEARCH', calculateAge:  calculateAge});
     }
   }
 
@@ -48,7 +49,7 @@ class PlayersGrid extends React.Component {
             <th>Player</th>
             <th>Position</th>
             <th>Nationality</th>
-            <th>Jersey number</th>
+            <th>Age</th>
           </tr>
         </thead>
         {this.renderTableBody()}
@@ -95,13 +96,13 @@ class PlayersGrid extends React.Component {
             </FormGroup>
           </Col>
           <Col xs={6} md={3}>
-            <FormGroup controlId={"jerseyNumber"}>
+            <FormGroup controlId={"age"}>
               <FormControl
                 type="number"
                 min="18"
                 max="40"
-                value={this.props.filters.jerseyNumber}
-                placeholder="Jersey Number"
+                value={this.props.filters.age}
+                placeholder="Age"
                 onChange={this.handleChange}
               />
             </FormGroup>

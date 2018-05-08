@@ -21,8 +21,8 @@ function reducer(state = initialState, action) {
                         matchesFilters = player.position === state.filters.position;
                     }
 
-                    if (state.filters.jerseyNumber) {
-                        matchesFilters = player.jerseyNumber === parseInt(state.filters.jerseyNumber, 0);
+                    if (state.filters.age) {
+                        matchesFilters = action.calculateAge(new Date(player.dateOfBirth)) === parseInt(state.filters.age, 0);
                     }
 
                     return matchesFilters;
@@ -40,13 +40,14 @@ function reducer(state = initialState, action) {
             const numberInputMinValue = 18;
 
             Object.assign(filters, state.filters);
-            debugger
-            if (action.inputId === "jerseyNumber" && action.inputValue) {
-                if (parseInt(action.inputValue) > numberInputMaxValue || parseInt(action.inputValue) < numberInputMinValue) {
+            if (action.inputId === "age" && action.inputValue) {
+                if (parseInt(action.inputValue, 0) > numberInputMaxValue || parseInt(action.inputValue, 0) < numberInputMinValue) {
                     filters.areValid = false;
                 } else {
-                    filters.areValid = true;                    
-                }                
+                    filters.areValid = true;
+                }
+            } else {
+                filters.areValid = true;
             }
 
             filters[action.inputId] = action.inputValue;
