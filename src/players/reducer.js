@@ -14,15 +14,15 @@ function reducer(state = initialState, action) {
                 filteredPlayers = state.allPlayers.filter((player) => {
                     let matchesFilters = true;
                     if (state.filters.name && state.filters.name !== "") {
-                        matchesFilters = player.name.includes(state.filters.name)
+                        matchesFilters = player.name.toLowerCase().includes(state.filters.name.toLowerCase())
                     }
 
                     if (state.filters.position) {
-                        matchesFilters = player.position === state.filters.position;
+                        matchesFilters = player.position === state.filters.position && matchesFilters;
                     }
 
                     if (state.filters.age) {
-                        matchesFilters = action.calculateAge(new Date(player.dateOfBirth)) === parseInt(state.filters.age, 0);
+                        matchesFilters = action.calculateAge(new Date(player.dateOfBirth)) === parseInt(state.filters.age, 0) && matchesFilters;
                     }
 
                     return matchesFilters;
