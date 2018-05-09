@@ -39,7 +39,8 @@ describe('<PlayersGrid/>', () => {
             "name": "Sergio Romero",
             "nationality": "Argentina",
             "position": "Keeper"
-        }]
+        }], 
+        filters: {}
     };
     const mockStore = configureStore();
     let store, wrapper;

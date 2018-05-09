@@ -62,12 +62,12 @@ describe('R E D U C E R', () => {
                 "name": "Romelu Lukaku",
                 "nationality": "Belgium",
                 "position": "Centre-Forward"
-            }], filters: {}
+            }], filters: {}, hasErrors: false
         })
     });
     it('+++ reducer for HANDLECHANGE', () => {
         let state = { players: [], allPlayers: [], filters: {} }
         state = reducer(state, { type: "HANDLECHANGE", inputId: "name", inputValue: "test" });
-        expect(state).toEqual({ players: [], allPlayers: [], filters: { name: "test" } })
+        expect(state).toEqual({ allPlayers: [], filters: { areValid: true, name: "test" }, hasErrors: false, players: [] })
     });
 });
